@@ -1,12 +1,12 @@
 #include <iostream>
-#include <queue> 
-#include <unordered_map> 
-#include <unordered_set> 
-#include <vector> 
-#include <utility> 
+#include <queue>
+#include <unordered_map>
+#include <unordered_set>
+#include <vector>
+#include <utility>
 #include <boost/functional/hash.hpp>
 #include <cmath>
-#include <cstdlib>     
+#include <cstdlib>
 
 class Graph_Obj
 {

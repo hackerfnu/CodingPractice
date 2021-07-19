@@ -18,5 +18,6 @@ int main()
 	new_tree.Insert(16);
 	new_tree.Insert(20);
 	new_tree.LevelOrderPrint();
+	new_tree.InOrderPrint();
 	// std::cout<<"Yo";
 }
