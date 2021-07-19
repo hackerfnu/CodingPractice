@@ -18,6 +18,7 @@ class Tree_Obj
 		void PreOrder(TreeNode *node);
 		void PostOrder(TreeNode *node);
 		void InOrder(TreeNode *node);
-		void LevelOrder(TreeNode *node);
+		void LevelOrder();
 		void LevelOrderPrint();
+		void InOrderPrint();
 };

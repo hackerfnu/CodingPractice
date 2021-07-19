@@ -9,104 +9,87 @@ Tree_Obj::Tree_Obj(): _root(NULL)
 
 void Tree_Obj::Insert(int key)
 {
-	TreeNode **node_to_check = &_root;
-	while(true)
-	{
-		if((*node_to_check) == NULL)
-		{
-			(*node_to_check) = new TreeNode(key);
-			break;
+	TreeNode **cur_node_ptr = &_root;
+	while(true) {
+		if(*cur_node_ptr == nullptr) {
+			*cur_node_ptr = new TreeNode(key);
+			return;
 		}
-		else if(key > (*node_to_check)->val)
-		{
-			// std::cout<<"Key is big"<<key<<"\n";
-			node_to_check = &((*node_to_check)->right);
+		if(key > (*cur_node_ptr)->val) {
+			cur_node_ptr = &((*cur_node_ptr)->right);
 		}
-		else
-		{
-			// std::cout<<"Key is small"<<key<<"\n";
-			node_to_check = &((*node_to_check)->left);
+		else if(key < (*cur_node_ptr)->val) {
+			cur_node_ptr = &((*cur_node_ptr)->left);
 		}
 	}
-
 }
 
 
+// Traverse: left->root->right
 void Tree_Obj::InOrder(TreeNode *node = NULL)
 {
-	if(_init == true)
-	{
-		_init = false;
-		// std::cout<<(_root->val);
-		InOrder(_root);
-	}
+	// Left
+	if(node->left) InOrder(node->left);
 
-	if(node != NULL)
-	{
-		InOrder(node->left);
-		std::cout<<node->val<<",";
-		InOrder(node->right);
-	}
+	// Root
+	std::cout<<node->val<<",";
+
+	// Right
+	if(node->right) InOrder(node->right);
 }
 
+// Traverse: root->left->right
 void Tree_Obj::PreOrder(TreeNode *node = NULL)
 {
-	if(_init == true)
-	{
-		_init = false;
-		// std::cout<<(_root->val);
-		PreOrder(_root);
-	}
+	// Root
+	std::cout<<node->val<<",";
 
-	if(node != NULL)
-	{
-		std::cout<<node->val<<",";
-		PreOrder(node->left);
-		PreOrder(node->right);
-	}
+	// Left
+	if(node->left) InOrder(node->left);
+
+	// Right
+	if(node->right) InOrder(node->right);
+
 }
 
+// Tracers: left->right->root
 void Tree_Obj::PostOrder(TreeNode *node = NULL)
 {
-	if(_init == true)
-	{
-		_init = false;
-		// std::cout<<(_root->val);
-		PostOrder(_root);
-	}
+	// Left
+	if(node->left) InOrder(node->left);
 
-	if(node != NULL)
-	{
-		PostOrder(node->left);
-		PostOrder(node->right);
-		std::cout<<node->val<<",";
-	}
+	// Right
+	if(node->right) InOrder(node->right);
+
+	// Root
+	std::cout<<node->val<<",";
 }
 
-void Tree_Obj::LevelOrder(TreeNode *node = NULL)
+void Tree_Obj::LevelOrder()
 {
-	if(_init == true)
-	{
-		_init = false;
-		_open_list.push_back(_root);
-		LevelOrder(_root);
-	}
-
-	if(node != NULL)
-	{
-		_open_list.pop_front();
-		_path.push_back(node->val);
-		_open_list.push_back(node->left);
-		_open_list.push_back(node->right);
-		LevelOrder(_open_list.front());
+	std::list<TreeNode*> open_list;
+	TreeNode *cur_node;
+	open_list.push_back(_root);
+	while(!open_list.empty()) {
+		cur_node = open_list.front();
+		_path.push_back(cur_node->val);
+		if(cur_node->left) open_list.push_back(cur_node->left);
+		if(cur_node->right) open_list.push_back(cur_node->right);
+		open_list.pop_front();
 	}
 }
 
 void Tree_Obj::LevelOrderPrint()
 {
-	LevelOrder(0);
+	LevelOrder();
 	for(const auto & element :_path)
 	{
 		std::cout<<element<<",";
 	}
+	std::cout<<"\n";
+}
+
+void Tree_Obj::InOrderPrint() {
+	InOrder(_root);
+	std::cout<<"\n";
 }

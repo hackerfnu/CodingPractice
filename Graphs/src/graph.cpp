@@ -1,7 +1,7 @@
 #include "graph.h"
 
 Graph_Obj::Graph_Obj()
-{   
+{
 }
 
 
@@ -13,7 +13,7 @@ void Graph_Obj::add_vertex(int key1, int key2)
 void Graph_Obj::add_edge(int key1, int key2)
 {
 	// std::cout<<"Adding Edge";
-	if (_graph.find(key1) == _graph.end()) 
+	if (_graph.find(key1) == _graph.end())
 	{
 		std::unordered_set<int> vect{key2};
 		_graph[key1] = vect;
@@ -23,7 +23,7 @@ void Graph_Obj::add_edge(int key1, int key2)
 		_graph[key1].insert(key2);
 	}
 
-	if (_graph.find(key2) == _graph.end()) 
+	if (_graph.find(key2) == _graph.end())
 	{
 		std::unordered_set<int> vect{key1};
 		_graph[key2] = vect;
