@@ -53,51 +53,23 @@ bool Graph_Obj::DFS(int key1,int key2)
 {
 	/* TODO: Have 3 data structure
 	1.Visited
-	2.node to explore that always PUT NEW FIRST
+	2.node to explore that always PUT NEW FIRST in _open_list
 	3.Data structure that keep track of predecesor
+	Might use recusrsion
 	*/
-	std::cout<<"DFS"<<key1<<","<<key2<<"\n";
-	_open_list.pop_front();
-	_visited[key1] = true;
-	for(const auto &element : _graph[key1])
-	{
-		if(_visited.find(element) == _visited.end())
-		{
-			_pred[element] = key1;
-			if(element == key2)
-				return true;
-			_open_list.push_front(element);
-		}
-	}
-	if(_open_list.empty())
-		return false;
-	DFS(_open_list.front(),key2);
+	return false;
 }
 
 bool Graph_Obj::BFS(int key1,int key2)
 {
 	/* TODO: Have 3 data structure
 	1.Visited
-	2.node to explore that always PUT NEW At THE END
+	2.node to explore that always PUT NEW At THE END in _open_list
 	3.Data structure that keep track of predecesor
 	*/
-	std::cout<<"BFS"<<key1<<","<<key2<<"\n";
-	_open_list.pop_front();
-	_visited[key1] = true;
-	for(const auto &element : _graph[key1])
-	{
-		if(_visited.find(element) == _visited.end())
-		{
-			_pred[element] = key1;
-			if(element == key2)
-				return true;
-			_open_list.push_back(element);
-		}
-	}
-	if(_open_list.empty())
-		return false;
-	BFS(_open_list.front(),key2);
+	return false;
 }
+
 void Graph_Obj::BackTrack(int key1, int key2)
 {
 	int element = key2;
