@@ -7,76 +7,43 @@ Tree_Obj::Tree_Obj(): _root(NULL)
 }
 
 
+// Algo: Look at current node,
+// If current node is nullptr add the key(element being inserted)
+// If key < cur_node->val, push to left
+// else push to cur_node->right
 void Tree_Obj::Insert(int key)
 {
-	TreeNode **cur_node_ptr = &_root;
-	while(true) {
-		if(*cur_node_ptr == nullptr) {
-			*cur_node_ptr = new TreeNode(key);
-			return;
-		}
-		if(key > (*cur_node_ptr)->val) {
-			cur_node_ptr = &((*cur_node_ptr)->right);
-		}
-		else if(key < (*cur_node_ptr)->val) {
-			cur_node_ptr = &((*cur_node_ptr)->left);
-		}
-	}
+	// TODO: Fill In Implementation of Insertion into BST
+	return;
 }
 
 
 // Traverse: left->root->right
 void Tree_Obj::InOrder(TreeNode *node = NULL)
 {
-	// Left
-	if(node->left) InOrder(node->left);
-
-	// Root
-	std::cout<<node->val<<",";
-
-	// Right
-	if(node->right) InOrder(node->right);
+	// TODO: Fill In Implementation of In Order Traversal
+	return;
 }
 
 // Traverse: root->left->right
 void Tree_Obj::PreOrder(TreeNode *node = NULL)
 {
-	// Root
-	std::cout<<node->val<<",";
-
-	// Left
-	if(node->left) InOrder(node->left);
-
-	// Right
-	if(node->right) InOrder(node->right);
-
+	// TODO: Fill In Implementation of Pre Order Traversal
+	return;
 }
 
-// Tracers: left->right->root
+// Traverse: left->right->root
 void Tree_Obj::PostOrder(TreeNode *node = NULL)
 {
-	// Left
-	if(node->left) InOrder(node->left);
-
-	// Right
-	if(node->right) InOrder(node->right);
-
-	// Root
-	std::cout<<node->val<<",";
+	// TODO: Fill In Implementation of Post Order Traversal
+	return;
 }
 
+// Traverse: Breadth First Search and save shortest path in member variable _path
 void Tree_Obj::LevelOrder()
 {
-	std::list<TreeNode*> open_list;
-	TreeNode *cur_node;
-	open_list.push_back(_root);
-	while(!open_list.empty()) {
-		cur_node = open_list.front();
-		_path.push_back(cur_node->val);
-		if(cur_node->left) open_list.push_back(cur_node->left);
-		if(cur_node->right) open_list.push_back(cur_node->right);
-		open_list.pop_front();
-	}
+	// TODO: Fill In Implementation of LevelOrder/Breadth First Search
+	return;
 }
 
 void Tree_Obj::LevelOrderPrint()
