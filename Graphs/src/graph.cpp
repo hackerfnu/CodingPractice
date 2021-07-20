@@ -5,143 +5,86 @@ Graph_Obj::Graph_Obj()
 }
 
 
-void Graph_Obj::add_vertex(int key1, int key2)
-{
-	std::cout<<"Adding vertex";
-}
-
 void Graph_Obj::add_edge(int key1, int key2)
 {
-	// std::cout<<"Adding Edge";
-	if (_graph.find(key1) == _graph.end())
-	{
-		std::unordered_set<int> vect{key2};
-		_graph[key1] = vect;
+	if(graph_.find(key1) == graph_.end()) {
+		std::unordered_set<int> key1_vect{key2};
+		graph_[key1] = std::move(key1_vect);
 	}
-	else
-	{
-		_graph[key1].insert(key2);
+	else {
+		graph_[key1].insert(key2);
 	}
 
-	if (_graph.find(key2) == _graph.end())
-	{
-		std::unordered_set<int> vect{key1};
-		_graph[key2] = vect;
+	if(graph_.find(key2) == graph_.end()) {
+		std::unordered_set<int> key2_vect{key1};
+		graph_[key2] = std::move(key2_vect);
+	} else {
+		graph_[key2].insert(key1);
 	}
-	else
-	{
-		_graph[key2].insert(key1);
-	}
+	return;
 }
 
 
 void Graph_Obj::print_edges()
 {
-	std::cout<<"Printing All edges";
-	for (const auto &element : _graph) {
-	    std::cout << element.first << ": ";
-	    for(const auto &edge_elem : element.second)
-	    {
-	    	std::cout<<edge_elem<<",";
-	    }
-	    std::cout<<std::endl;
+	for(const auto &node_it : graph_) {
+		std::cout<<"Node["<<node_it.first<<"]: ";
+		for(const auto &elem : node_it.second) {
+			std::cout<<elem<<",";
+		}
+		std::cout<<"\n";
 	}
-
 }
 
-bool Graph_Obj::DFS(int key1,int key2)
+void Graph_Obj::Search(int key1,int key2, std::string mode)
 {
 	/* TODO: Have 3 data structure
 	1.Visited
-	2.node to explore that always PUT NEW FIRST
+	2.node to explore that always PUT NEW FIRST if DFS, put LAST if BFS
 	3.Data structure that keep track of predecesor
 	*/
-	std::cout<<"DFS"<<key1<<","<<key2<<"\n";
-	_open_list.pop_front();
-	_visited[key1] = true;
-	for(const auto &element : _graph[key1])
-	{
-		if(_visited.find(element) == _visited.end())
-		{
-			_pred[element] = key1;
-			if(element == key2)
-				return true;
-			_open_list.push_front(element);
+	std::cout<<"running search mode "<<mode<<"\n";
+	std::unordered_set<int> visited;
+	std::unordered_map<int,int> pred;
+	std::list<int> open_list;
+	open_list.push_back(key1);
+	int cur_node = key1;
+	bool goal_found = false;
+	while(!open_list.empty() && !goal_found) {
+		cur_node = open_list.front();
+		open_list.pop_front();
+		for(auto child_node : graph_[cur_node]) {
+			if(visited.find(child_node) != visited.end()) continue;
+			if(mode == "BFS") {
+				open_list.push_back(child_node);
+			}
+			else if( mode == "DFS") {
+				open_list.push_front(child_node);
+			}
+			visited.insert(child_node);
+			pred[child_node] = cur_node;
+			if(child_node == key2) goal_found = true;
 		}
 	}
-	if(_open_list.empty())
-		return false;
-	DFS(_open_list.front(),key2);
+	if(!goal_found) std::cout<<"No path found!\n";
+	auto path = Backtrack(key1, key2, pred);
+	std::cout<<"Path found:";
+	for(auto iter : path) {
+		std::cout<<iter<<",";
+	}
+	std::cout<<"\n";
 }
 
-bool Graph_Obj::BFS(int key1,int key2)
+std::list<int> Graph_Obj::Backtrack(int key1,int key2, std::unordered_map<int,int>& pred)
 {
-	/* TODO: Have 3 data structure
-	1.Visited
-	2.node to explore that always PUT NEW At THE END
-	3.Data structure that keep track of predecesor
-	*/
-	std::cout<<"BFS"<<key1<<","<<key2<<"\n";
-	_open_list.pop_front();
-	_visited[key1] = true;
-	for(const auto &element : _graph[key1])
-	{
-		if(_visited.find(element) == _visited.end())
-		{
-			_pred[element] = key1;
-			if(element == key2)
-				return true;
-			_open_list.push_back(element);
-		}
-	}
-	if(_open_list.empty())
-		return false;
-	BFS(_open_list.front(),key2);
-}
-void Graph_Obj::BackTrack(int key1, int key2)
-{
-	int element = key2;
+	int cur_node = key2;
 	std::list<int> path;
-	path.push_front(element);
-	while(element != key1)
-	{
-		element = _pred[element];
-		path.push_front(element);
-
+	bool found_origin = false;
+	while(!found_origin) {
+		if(cur_node == key1) found_origin = true;
+		path.push_front(cur_node);
+		cur_node = pred[cur_node];
+		std::cout<<"cur_node:"<<cur_node<<"\n";
 	}
-
-	std::cout<<"Path: ";
-	for(const auto &elem: path){
-		std::cout<<elem<<",";
-	}
-	std::cout<<std::endl;
-
+	return path;
 }
-
-
-void Graph_Obj::ForwardBFS(int key1,int key2)
-{
-	_open_list.push_back(key1);
-	bool result = BFS(key1,key2);
-	if(result == true)
-	{
-		BackTrack(key1,key2);
-	}
-	else
-		std::cout<<"Path not found\n";
-
-}
-
-void Graph_Obj::ForwardDFS(int key1,int key2)
-{
-	_open_list.push_back(key1);
-	bool result = DFS(key1,key2);
-	if(result == true)
-	{
-		BackTrack(key1,key2);
-	}
-	else
-		std::cout<<"Path not found\n";
-
-}
-

@@ -1,17 +1,15 @@
 #include <iostream>
-#include <queue> 
-#include <unordered_map> 
-#include <vector> 
-#include <utility> 
-#include <boost/functional/hash.hpp>
+#include <queue>
+#include <unordered_map>
+#include <vector>
+#include <utility>
 #include <cmath>
-#include <cstdlib> 
-#include "graph.h"    
+#include <cstdlib>
+#include "graph.h"
 
 
 int main()
 {
-	std::cout<<"Wut\n";
 	Graph_Obj new_graph;
 	new_graph.add_edge(1,2);
 	new_graph.add_edge(1,3);
@@ -20,5 +18,5 @@ int main()
 	new_graph.add_edge(3,4);
 	new_graph.add_edge(5,6);
 	new_graph.print_edges();
-	new_graph.ForwardDFS(1,4);
+	new_graph.Search(1,6,"DFS");
 }
