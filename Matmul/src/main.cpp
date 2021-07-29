@@ -14,17 +14,19 @@ int main() {
   B = new float[K * N];
   C = new float[M * N];
   C_ref = new float[M * N];
-  RandomFloat(A, M, K);
-  RandomFloat(B, K, N);
+  // RandomFloat(A, M, K);
+  // RandomFloat(B, K, N);
+  OnesFloat(A, M, K, 1);
+  OnesFloat(B, K, N, 2);
   ZeroFloat(C, M, N);
   std::cout << "Matrix A:\n";
   MatrixPrinter(A, M, K);
   std::cout << "Matrix B:\n";
   MatrixPrinter(B, K, N);
-  std::cout << "Matrix C:\n";
-  MatrixPrinter(C, M, N);
   CustomMatmul(A, B, C, M, N, K);
   NaiveRefMatmul(A, B, C_ref, M, N, K);
+  std::cout << "Matrix C:\n";
+  MatrixPrinter(C_ref, M, N);
   bool same_result = CheckEqual(C, C_ref, M, N);
   if (!same_result) {
     std::cout << "Wrong Implementation!";

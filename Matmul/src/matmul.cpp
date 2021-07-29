@@ -5,6 +5,10 @@
 #include <cstdlib>
 #include <iostream>
 
+#define alpha( i,j,lD ) A[ (j)*lD + (i) ]   // map alpha( i,j ) to array A
+#define beta( i,j,lD )  B[ (j)*lD + (i) ]   // map beta( i,j ) to array B
+#define gamma( i,j,lD ) C[ (j)*lD + (i) ]   // map gamma( i,j ) to array C
+
 void RandomFloat(float *matrix, int row, int col) {
   int num_dim = row * col;
   float max_float = 100.0;
@@ -16,13 +20,26 @@ void RandomFloat(float *matrix, int row, int col) {
 }
 
 void ZeroFloat(float *matrix, int row, int col) {
-  memset(matrix, 0, row * col);
+  memset(matrix, 0, row * col * sizeof(float));
+}
+
+void OnesFloat(float *matrix, int row, int col, float alpha = 1.0) {
+  const int kSize = row*col;
+  for(int i = 0; i <kSize; i++) {
+    matrix[i] = alpha;
+  }
 }
 
 void CustomMatmul(float *A, float *B, float *C, int m, int n, int k) { return; }
 
 void NaiveRefMatmul(float *A, float *B, float *C, int m, int n, int k) {
-  return;
+  for(int i = 0; i < m; i++) {
+    for (int j = 0; j < n; j++) {
+      for (int p = 0; p < n; p++) {
+        gamma(i,j,m) += alpha(i,p,m) * beta(p,j,k);
+      }
+    }
+  }
 }
 
 void MatrixPrinter(float *A, int m, int n) {
